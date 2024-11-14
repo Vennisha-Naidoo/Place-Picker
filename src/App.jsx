@@ -5,11 +5,19 @@ import { AVAILABLE_PLACES } from './data.js';
 import Modal from './components/Modal.jsx';
 import DeleteConfirmation from './components/DeleteConfirmation.jsx';
 import logoImg from './assets/logo.png';
+import { sortPlacesByDistance } from './loc.js';
 
 function App() {
   const modal = useRef();
   const selectedPlace = useRef();
   const [pickedPlaces, setPickedPlaces] = useState([]);
+
+  /*Example of a 'SIDE EFFECT' (Tasks that need to be executed in the app, for the app to work correctly BUT 
+  are tasks that do NOT impact the current component render cycle.)
+  */
+  navigator.geolocation.getCurrentPosition((position) => {
+    const sortedPlaces = sortPlacesByDistance(AVAILABLE_PLACES, position.coords.latitude, position.coords.longitude);
+  })
 
   function handleStartRemovePlace(id) {
     modal.current.open();

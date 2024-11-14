@@ -27,6 +27,7 @@ function App() {
   */
 
   useEffect(() => {
+    //'navigator' is provided by the browser
     navigator.geolocation.getCurrentPosition((position) => {
       const sortedPlaces = sortPlacesByDistance(AVAILABLE_PLACES, position.coords.latitude, position.coords.longitude);
       setAvailablePlaces(sortedPlaces);
@@ -50,6 +51,13 @@ function App() {
       const place = AVAILABLE_PLACES.find((place) => place.id === id);
       return [place, ...prevPickedPlaces];
     });
+
+    /*
+    'localstorage' is provided by the browser
+    This function allows data to be stored in the browser (example: after the page is refreshed/reload or leaving the website)
+    You have to pass two values: 1. Identifier 2. Value that should be stored (has to be in STRING format - this can be used through 'JSON.stringify()') 
+    */
+    localStorage.setItem();
   }
 
   function handleRemovePlace() {

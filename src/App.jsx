@@ -54,11 +54,18 @@ function App() {
 
     /*
     'localstorage' is provided by the browser
-    This function allows data to be stored in the browser (example: after the page is refreshed/reload or leaving the website)
+    These functions (localStorage.getItem() & localStorage.setItem()) allow data to be called from/stored in the browser (example: after the page is refreshed/reload or leaving the website)
     You have to pass two values: 1. Identifier 2. Value that should be stored (has to be in STRING format - this can be used through 'JSON.stringify()') 
+
+    While this is an example of a 'side effect', it is an example that does not require a useEffect -  reason being that this code does not execute every time
+    the state updates, rather only when the function is executed - therefore, NOT creating an infinite loop.
     */
-    localStorage.setItem();
+    const storedIds = JSON.parse(localStorage.getItem('selectedPlaces')) || [];
+    if (storedIds.indexOf(id) === -1) {
+      localStorage.setItem('selectedPlaces', JSON.stringify([id, ...storedIds]));
+    }
   }
+    
 
   function handleRemovePlace() {
     setPickedPlaces((prevPickedPlaces) =>

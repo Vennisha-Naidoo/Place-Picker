@@ -1,12 +1,26 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+
+const TIMER = 3000;
 
 export default function DeleteConfirmation({ onConfirm, onCancel }) {
+
+  const [remainingTime, setRemainingTime] = useState(TIMER);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setRemainingTime(prevTime => prevTime - 60);
+    }, 10);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
 
   //useEffect allows you to create a 'clean up function' that should be execute right before the effect function runs again.
   useEffect(() => {
     const timer = setTimeout(() => {
       onConfirm();
-    }, 300);
+    }, TIMER);
 
     //This will stop the 'setTimeout' whenever the DeleteConfirmation component is removed from the DOM
     return () => {
@@ -27,6 +41,7 @@ export default function DeleteConfirmation({ onConfirm, onCancel }) {
           Yes
         </button>
       </div>
+      <progress value={ remainingTime } max={ TIMER } />
     </div>
   );
 }

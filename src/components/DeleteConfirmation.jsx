@@ -1,4 +1,20 @@
+import { useEffect } from "react";
+
 export default function DeleteConfirmation({ onConfirm, onCancel }) {
+
+  //useEffect allows you to create a 'clean up function' that should be execute right before the effect function runs again.
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      onConfirm();
+    }, 300);
+
+    //This will stop the 'setTimeout' whenever the DeleteConfirmation component is removed from the DOM
+    return () => {
+      clearTimeout(timer);
+    };
+
+  }, [onConfirm]);
+
   return (
     <div id="delete-confirmation">
       <h2>Are you sure?</h2>

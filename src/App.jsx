@@ -7,22 +7,16 @@ import DeleteConfirmation from './components/DeleteConfirmation.jsx';
 import logoImg from './assets/logo.png';
 import { sortPlacesByDistance } from './loc.js';
 
+// This code can be outside the app - instead of having it run repeatedly within the App component
+const storedIds = JSON.parse(localStorage.getItem('selectedPlaces')) || [];
+const storedPlaces = storedIds.map((id) => AVAILABLE_PLACES.find((place) => place.id === id));
+
 function App() {
+
   const modal = useRef();
   const selectedPlace = useRef();
   const [availablePlaces, setAvailablePlaces] = useState([]);
-  const [pickedPlaces, setPickedPlaces] = useState([]);
-
-  /* 
-  An example of a redundant usage of the 'useEffect' - which is not recommended
-  Unlike 'getCurrentPosition', the code within this useEffect runs synchronously (it finishes instantly - executes line by line)
-  While in the 'getCurrentPosition' it was only completed once the 'callback' function executed by the browser
-  */
-  useEffect(() => {
-    const storedIds = JSON.parse(localStorage.getItem('selectedPlaces')) || [];
-    const storedPlaces = storedIds.map((id) => AVAILABLE_PLACES.find((place) => place.id === id));
-    setPickedPlaces(storedPlaces);
-  }, []);
+  const [pickedPlaces, setPickedPlaces] = useState(storedPlaces);
 
   /* 
   The function passed within the useEffect hook will only execute AFTER the App component is done executing.
